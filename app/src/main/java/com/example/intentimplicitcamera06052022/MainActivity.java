@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button mBtnCamera, mBtnGallery;
     ImageView mImg;
     int REQUEST_CODE_CAMERA=123;
+    boolean isFirstOpenRequest=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)!=
                 PackageManager.PERMISSION_GRANTED)
                 {
-
-
                     //TRUY CAP VAO SETTING TREN APP CHU KHONG PHAI LA TREN DIEN THOAI
                     //Kiem tra xem nguoi dung co bam deny chua
                     //show thong bao va nhay vao setting
@@ -85,11 +85,19 @@ public class MainActivity extends AppCompatActivity {
                     //neu khong thi hien ra bang thong bao yeu cau nguoi dung cung cap quyen truy cap camera
                     else
                     {
-                        ActivityCompat.requestPermissions(
-                                MainActivity.this,
-                                new String[]{Manifest.permission.CAMERA},
-                                REQUEST_CODE_CAMERA);
+
+                            ActivityCompat.requestPermissions(
+                                    MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},
+                                    REQUEST_CODE_CAMERA);
+                            isFirstOpenRequest=false;
                     }
+                }
+                else
+                {
+                    Intent intent=new Intent();
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    cameraLauncher.launch(intent);
                 }
             }
         });
@@ -109,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
         {
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(this, "cho PHEP", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraLauncher.launch(intent);
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
