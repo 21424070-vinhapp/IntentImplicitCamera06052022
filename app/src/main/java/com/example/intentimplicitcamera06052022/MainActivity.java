@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     // Neu nguoi dung bam vao cho phep truy cap camera
                     else
                     {
+                        //gui request ve ham onRequest kiem tra co phai chap nhan quyen truy cap khong
                         ActivityCompat.requestPermissions(
                                 MainActivity.this,
                                 new String[] {Manifest.permission.CAMERA},
