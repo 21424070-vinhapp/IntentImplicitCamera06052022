@@ -154,10 +154,11 @@ public class MainActivity extends AppCompatActivity {
                 //neu ung dung da duoc cung cap quyen truy cap camera
                 else
                 {
-//                    Intent intent=new Intent();
-//                    //CHI CHUP DuOC 1 TAM
-//                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    cameraLauncher.launch(intent);
+                    Intent intent=new Intent();
+                    //CHI CHUP DuOC 1 TAM
+                    intent.setAction(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    gallerrLauncher.launch(intent);
                 }
             }
         });
@@ -187,15 +188,17 @@ public class MainActivity extends AppCompatActivity {
         {
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
-//                Intent intent=new Intent();
-//                //CHI CHUP DuOC 1 TAM
-//                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//                cameraLauncher.launch(intent);
+                Intent intent=new Intent();
+                //CHI CHUP DuOC 1 TAM
+                intent.setAction(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                gallerrLauncher.launch(intent);
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //tra ve cho nut camera
     private ActivityResultLauncher<Intent> cameraLauncher= registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -205,6 +208,22 @@ public class MainActivity extends AppCompatActivity {
                     {
                         Bitmap bitmap= (Bitmap) result.getData().getExtras().get("data");
                         mImg.setImageBitmap(bitmap);
+                    }
+                }
+            }
+    );
+
+
+    //tra ve cho nut gallery
+    private ActivityResultLauncher<Intent> gallerrLauncher=registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode()==RESULT_OK)
+                    {
+                        Uri uri=result.getData().getData();
+                        mImg.setImageURI(uri);
                     }
                 }
             }
