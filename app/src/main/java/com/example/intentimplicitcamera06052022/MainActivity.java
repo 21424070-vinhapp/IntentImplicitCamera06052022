@@ -17,7 +17,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)!=
                 PackageManager.PERMISSION_GRANTED)
                 {
+
+
+                    //TRUY CAP VAO SETTING TREN APP CHU KHONG PHAI LA TREN DIEN THOAI
                     //Kiem tra xem nguoi dung co bam deny chua
                     //show thong bao va nhay vao setting
                     if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.CAMERA))
@@ -56,7 +61,10 @@ public class MainActivity extends AppCompatActivity {
                         buidler.setPositiveButton("Dong y", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                Intent intent=new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri=Uri.fromParts("package",getPackageName(),null);
+                                intent.setData(uri);
+                                startActivity(intent);
                             }
                         });
 
@@ -102,10 +110,6 @@ public class MainActivity extends AppCompatActivity {
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED)
             {
                 Toast.makeText(this, "cho PHEP", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(this, "Khong cho phep", Toast.LENGTH_SHORT).show();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
