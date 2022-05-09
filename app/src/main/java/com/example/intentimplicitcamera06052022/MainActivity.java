@@ -11,6 +11,9 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
@@ -41,9 +44,34 @@ public class MainActivity extends AppCompatActivity {
                 PackageManager.PERMISSION_GRANTED)
                 {
                     //Kiem tra xem nguoi dung co bam deny chua
+                    //show thong bao va nhay vao setting
                     if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.CAMERA))
                     {
-                        Log.d("BBB", "vao day");
+                        //Log.d("BBB", "vao day");
+                        AlertDialog.Builder buidler=new AlertDialog.Builder(MainActivity.this);
+                        buidler.setTitle("Xac thuc quyen Camera");
+                        buidler.setMessage("Di vao quyen cai dat");
+
+                        //setPositiveButton danh cho cac nut tich cuc nhu OK, dong y
+                        buidler.setPositiveButton("Dong y", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+
+                        //setNegativeButton danh cho cac nut tieu cuc nhu khong dong y, khong cho phep
+                        buidler.setNegativeButton("Khong dong y", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+
+
+                        //cuoi cung can co buidler.show(); de hien ra buidler
+                        buidler.show();
+
                     }
 
                     //neu khong thi hien ra bang thong bao yeu cau nguoi dung cung cap quyen truy cap camera
